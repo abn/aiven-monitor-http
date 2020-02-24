@@ -15,10 +15,11 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Setup test environment
+    - name: Setup test dependencies
       run: |
         python -m pip install --upgrade pip poetry
-        poetry install
-    - name: Execute test suite
+    - name: Setup test environmen and execute test suite
       run: |
+        docker-compose up -d
+        poetry install
         poetry run pytest
