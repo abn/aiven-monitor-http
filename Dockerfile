@@ -16,4 +16,6 @@ COPY --from=0 /opt/source/dist/*.whl /tmp/.
 
 RUN pip install --prefer-binary /tmp/*.whl
 
-ENTRYPOINT aiven-monitor http
+ENTRYPOINT ["aiven-monitor", "http"]
+
+CMD ["--help"]
