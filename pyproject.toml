@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "aiven-monitor-http"
+version = "0.1.0"
+description = "Simple HTTP monitoring example for aiven"
+authors = ["Arun Babu Neelicattu <arun.neelicattu@gmail.com>"]
+license = "APLv2"
+packages = [
+    { include = "aiven" }
+]
+classifiers = [
+    "Topic :: System :: Monitoring",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+]
+readme = "README.md"
+
+[tool.poetry.scripts]
+aiven-monitor = "aiven.monitor.cli:monitor"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+aiokafka = "^0.5.2"
+asyncpg = "^0.20.1"
+aiohttp = {extras = ["speedups"], version = "^3.6.2"}
+ujson = "^1.35"
+click = "^7.0"
+cafeteria-asyncio = "^0.1.2"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^1.17"
+flake8 = "^3.7"
+coverage = "^4.5"
+black = "^19.10b0"
+tox = "^3.13"
+pytest = "^5.2"
+pytest-asyncio = "^0.10.0"
+pytest-cov = "^2.7"
+aioresponses = "^0.6.3"
+
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
