@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import os
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field, InitVar
@@ -7,6 +8,9 @@ from typing import List, Optional, Dict, Any
 
 from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 from aiokafka.helpers import create_ssl_context
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -86,6 +90,7 @@ class KafkaManager:
 
     @asynccontextmanager
     async def producer(self) -> AIOKafkaProducer:
+        logger.debug("Initialising new producer")
         try:
             producer = AIOKafkaProducer(
                 loop=asyncio.get_event_loop(), **self._client_kwargs
@@ -97,10 +102,12 @@ class KafkaManager:
             await producer.start()
             yield producer
         finally:
+            logger.debug("Stopping producer")
             await producer.stop()
 
     @asynccontextmanager
     async def consumer(self, *topics, **kwargs) -> AIOKafkaConsumer:
+        logger.debug("Initialising consumer for topics: %s", ", ".join(topics))
         try:
             kwargs = {**self.client_configuration, "group_id": self.group_id, **kwargs}
             consumer = AIOKafkaConsumer(
@@ -113,4 +120,5 @@ class KafkaManager:
             await consumer.start()
             yield consumer
         finally:
+            logger.debug("Stopping consumer for topics: %s", ", ".join(topics))
             await consumer.stop()

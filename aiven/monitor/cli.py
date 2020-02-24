@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from typing import List
 
 import aiohttp
@@ -8,6 +9,10 @@ from cafeteria.asyncio.commons import handle_signals
 from aiven.monitor import Check
 from aiven.monitor.http.check import HTTPCheck
 from aiven.monitor.manager import CheckManager
+
+
+logging.root.setLevel(logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @click.group()
@@ -44,8 +49,14 @@ def monitor():
     default=True,
     help="Verify TLS certificate if https is used",
 )
+@click.option(
+    "--debug/--no-debug", default=False, help="Enable or disable debugging",
+)
 @click.argument("url", required=True, nargs=-1)
-def http(method, regex, timeout, interval, header, verify_ssl, url):
+def http(method, regex, timeout, interval, header, verify_ssl, debug, url):
+    if debug:
+        logging.root.setLevel(logging.DEBUG)
+
     headers = dict()
     for h in header:
         try:
@@ -74,6 +85,7 @@ def http(method, regex, timeout, interval, header, verify_ssl, url):
 
 
 async def run(check_type: str, checks: List[Check]):
+    logger.info("Initialising checks manager")
     manager = CheckManager()
     # TODO: allow consumer and producer to be started independently
     consumer_task = asyncio.create_task(manager.consume_events())

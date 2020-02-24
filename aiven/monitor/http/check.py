@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import re
 import socket
 from dataclasses import dataclass, field
@@ -7,6 +8,9 @@ from typing import Any, Dict, Optional, Union, Coroutine, Callable
 import aiohttp
 
 from aiven.monitor import Check, CheckResult
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -65,6 +69,7 @@ class HTTPCheck(Check):
             trace_configs=[trace_config],
         ) as session:
             while True:
+                logger.info("Starting check for url %s", self.url)
                 result = HTTPCheckResult()
                 try:
                     async with session.request(
@@ -89,5 +94,7 @@ class HTTPCheck(Check):
                     result.error = str(e)
                 except asyncio.CancelledError:
                     break
+
+                logger.debug("Triggering callback for check (%s)", self.url)
                 await callback(result)
                 await asyncio.sleep(self.interval)
