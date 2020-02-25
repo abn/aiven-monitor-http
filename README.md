@@ -58,6 +58,7 @@ avn service user-creds-download --username avnadmin monitor-kafka
 popd
 
 # note: this did not work as expected due to a client error, use web console instead
+# this is also not strictly required
 pushd .aiven/pg
 avn service user-creds-download --username avnadmin monitor-pg
 popd
@@ -91,6 +92,15 @@ We need to create the required topic prior to proceeding as auto create is not e
 ```sh
 avn service topic-create monitor-kafka check.events --partitions 1 --replication 3
 ```
+
+### Initialise database schema
+You can use the following command from the source root directory to initialise the 
+database schema.
+
+```sh
+psql $(avn service get monitor-pg --json | jq -r .service_uri) -f database/000_initial_migration.up.sql
+```
+
 
 ## Testing with Aiven Services
 ### Development environment
