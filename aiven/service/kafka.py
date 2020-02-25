@@ -2,11 +2,11 @@ import asyncio
 import logging
 import os
 from contextlib import asynccontextmanager
-from dataclasses import dataclass, field, InitVar
+from dataclasses import InitVar, dataclass, field
 from ssl import SSLContext
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
 
-from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
+from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
 from aiokafka.helpers import create_ssl_context
 
 
@@ -74,6 +74,7 @@ class KafkaManager:
 
         self._client_kwargs = dict(
             bootstrap_servers=self.bootstrap_servers,
+            security_protocol=self.security_protocol,
             ssl_context=self.ssl_context,
             sasl_mechanism=self.sasl_mechanism,
             sasl_plain_password=self.sasl_plain_password,
