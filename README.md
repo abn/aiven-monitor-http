@@ -1,4 +1,7 @@
 # Aiven Monitor: HTTP Check Sample (Kafka + PostgreSQL)
+ [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![](https://github.com/abn/aiven-monitor-http/workflows/Test%20Suite/badge.svg) ![](https://github.com/abn/aiven-monitor-http/workflows/Code%20Quality%20Checks/badge.svg) [![Docker Repository on Quay.io](https://quay.io/repository/abn/aiven-monitor-http/status "Docker Repository on Quay.io")](https://quay.io/repository/abn/aiven-monitor-http)
+
+
 This is a simple tool built to test [Aiven](https://aiven.io)'s hosted services. In 
 particular, [Kafka](https://kafka.apache.org/) and [PostgreSQL](https://www.postgresql.org/).
 This should work with any Kafka and Postgres deployments as well.
