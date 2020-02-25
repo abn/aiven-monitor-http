@@ -11,6 +11,7 @@ from aiven.monitor.http.check import HTTPCheck
 from aiven.monitor.manager import CheckManager
 
 
+logging.basicConfig(format="%(levelname)s %(name)s - %(message)s")
 logging.root.setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
 
