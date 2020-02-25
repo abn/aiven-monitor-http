@@ -132,3 +132,7 @@ docker run --rm -it \
 
 ## Cleanup Aiven Services
 Once you are done you can cleanup the created services using the following commands.
+```sh
+avn service terminate --force monitor-kafka
+avn service terminate --force monitor-pg
+```
